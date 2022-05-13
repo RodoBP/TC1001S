@@ -6,9 +6,11 @@ from freegames import floor, vector
 
 path = Turtle(visible=False)
 pacman = vector(-180, 190)
-key = vector(-180, -180)
+key1 = vector(-180, -180)
+key2 = vector(-140, -100)
+key3 = vector(40, 100)
 aim = vector(0, 0)
-state ={"key": False}
+state ={"key1": False, "key2":False, "key3":False, "win": False}
 door = vector(160,-180)
 
 tiles = [
@@ -90,7 +92,7 @@ def world():
                 square(x, y)
 
             if tile == 3:
-                if state['key'] == False:
+                if state['win'] == False:
                     path.color('red')
                     square(x,y)
                 else:
@@ -112,7 +114,7 @@ def move():
         y = 180 - (index // 20) * 20
         square(x, y)
     
-    if tiles[index] == 3 and state['key'] == True:         
+    if tiles[index] == 3 and state['win'] == True:         
         path.clear()
         up()
         goto(0,0)
@@ -122,17 +124,37 @@ def move():
         input("Enter..")
         quit()
 
-    if pacman.x == key.x and pacman.y ==key.y:
-        state['key'] = True
+    if pacman.x == key1.x and pacman.y ==key1.y:
+        state['key1'] = True
+
+    if pacman.x == key2.x and pacman.y ==key2.y:
+        state['key2'] = True
+
+    if pacman.x == key3.x and pacman.y ==key3.y:
+        state['key3'] = True
+
+    if state['win'] == False and state['key1'] == True and state['key2'] == True and state['key3'] == True:
+        state['win'] = True
         world()
+    
 
     up()
     goto(pacman.x + 10, pacman.y + 10)
     dot(20, 'yellow')
 
-    if state['key'] == False:
+    if state['key1'] == False:
         up()
-        goto(key.x + 10, key.y + 10)
+        goto(key1.x + 10, key1.y + 10)
+        dot(10, 'blue')
+
+    if state['key2'] == False:
+        up()
+        goto(key2.x + 10, key2.y + 10)
+        dot(10, 'blue')
+
+    if state['key3'] == False:
+        up()
+        goto(key3.x + 10, key3.y + 10)
         dot(10, 'blue')
 
 
